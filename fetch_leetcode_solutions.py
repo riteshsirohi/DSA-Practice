@@ -16,13 +16,20 @@ LEETCODE_GRAPHQL_URL = "https://leetcode.com/graphql/"
 # Authenticate with LeetCode and fetch submissions
 def fetch_leetcode_submissions(username, password):
     session = requests.Session()
-    login_response = session.post('https://leetcode.com/accounts/login/', data={
+    login_url = 'https://leetcode.com/accounts/login/'
+    
+    # Perform login
+    login_response = session.post(login_url, data={
         'login': username,
         'password': password
     })
-
+    
+    # Check if login was successful
     if login_response.status_code != 200:
-        raise ValueError(f"Failed to authenticate. Status code: {login_response.status_code}")
+        print(f"Failed to authenticate. Status code: {login_response.status_code}")
+        print(login_response.text)  # Print the response content for debugging
+        return None  # Or handle the error as appropriate
+    
     
     query = '''
     query recentAcSubmissions($username: String!, $limit: Int!) {
