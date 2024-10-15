@@ -1,15 +1,15 @@
 class Solution {
     public int numPairsDivisibleBy60(int[] time) {
-        HashMap<Integer,Integer> map = new HashMap<>();
+        int[] remainderFreq = new int[60];  
         int count = 0;
 
-        for(int i=0;i<time.length;i++){
-            int rem = time[i] % 60;
-            int compliment = (60-rem) % 60;
+        for (int t : time) {
+            int remainder = t % 60;
+            int complement = (60 - remainder) % 60;  
 
-            count += map.getOrDefault(compliment, 0);
+            count += remainderFreq[complement];
 
-            map.put(rem, map.getOrDefault(rem,0)+1);
+            remainderFreq[remainder]++;
         }
 
         return count;
